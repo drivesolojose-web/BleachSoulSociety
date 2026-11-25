@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+    <title id="title">Marcador genérico de habilidad</title>
+    <desc id="desc">Símbolo original de energía, no representa una técnica concreta.</desc>
+    <defs>
+        <radialGradient id="bg"><stop stop-color="#59302a"/><stop offset="1" stop-color="#17181c"/></radialGradient>
+        <radialGradient id="core"><stop stop-color="#fff1d2"/><stop offset=".3" stop-color="#ff9a5c"/><stop offset="1" stop-color="#c83d42" stop-opacity=".15"/></radialGradient>
+    </defs>
+    <rect width="128" height="128" rx="12" fill="url(#bg)"/>
+    <circle cx="64" cy="64" r="47" fill="none" stroke="#f47735" stroke-opacity=".28"/>
+    <path d="M64 14 71 49 101 27 79 57 114 64 79 71 101 101 71 79 64 114 57 79 27 101 49 71 14 64 49 57 27 27 57 49Z" fill="#f47735" fill-opacity=".24" stroke="#ff9a5c" stroke-opacity=".72" stroke-width="1.5"/>
+    <circle cx="64" cy="64" r="20" fill="url(#core)"/>
+    <circle cx="64" cy="64" r="7" fill="#fff0cf"/>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 520" role="img" aria-labelledby="title desc">
+    <title id="title">Horizonte nocturno ilustrado</title>
+    <desc id="desc">Panorama original de una luna sobre un horizonte oscuro y reflejos cálidos.</desc>
+    <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#17181e"/>
+            <stop offset=".58" stop-color="#382124"/>
+            <stop offset="1" stop-color="#8d3d2c"/>
+        </linearGradient>
+        <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+            <stop stop-color="#bd6540" stop-opacity=".55"/>
+            <stop offset="1" stop-color="#17181e" stop-opacity=".05"/>
+        </linearGradient>
+        <radialGradient id="moon-glow">
+            <stop stop-color="#ffd7a0" stop-opacity=".95"/>
+            <stop offset=".68" stop-color="#f47735" stop-opacity=".2"/>
+            <stop offset="1" stop-color="#f47735" stop-opacity="0"/>
+        </radialGradient>
+    </defs>
+    <rect width="1600" height="520" fill="url(#sky)"/>
+    <circle cx="1180" cy="150" r="190" fill="url(#moon-glow)"/>
+    <circle cx="1180" cy="150" r="70" fill="#f2d5b2" fill-opacity=".8"/>
+    <path d="M0 335 100 310 165 326 236 285 310 323 390 291 460 327 548 274 620 323 690 301 755 326 840 279 900 321 990 293 1060 320 1145 278 1220 319 1310 286 1385 319 1470 278 1600 312V520H0Z" fill="#14151a"/>
+    <path d="M0 362 110 343 206 354 294 329 382 353 492 332 586 357 700 334 804 359 916 331 1030 352 1150 326 1256 353 1370 329 1483 349 1600 328V520H0Z" fill="#1d1b20"/>
+    <path d="M1030 340 1200 340 1290 520H920Z" fill="url(#water)"/>
+    <g fill="#f47735" fill-opacity=".35">
+        <path d="M1060 385h98v4h-98zm-76 25h270v3H984zm45 24h173v3h-173zm-88 29h350v2h-350zm74 25h204v2h-204z"/>
+    </g>
+    <g fill="#f4a16d" fill-opacity=".45">
+        <circle cx="250" cy="95" r="2"/><circle cx="410" cy="174" r="2"/><circle cx="720" cy="87" r="2"/>
+        <circle cx="890" cy="202" r="2"/><circle cx="1370" cy="76" r="2"/><circle cx="1480" cy="185" r="2"/>
+    </g>
+</svg>

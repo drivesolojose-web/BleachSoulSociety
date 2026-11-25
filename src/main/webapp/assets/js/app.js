@@ -24,6 +24,25 @@ const resources = {
     habilidades: { singular: 'habilidad', plural: 'habilidades', title: 'Habilidades' }
 };
 
+const characterImages = {
+    1: 'Ichigo Kurosaki.jpg',
+    2: 'Rukia kuchiki.jpg',
+    3: 'Renji Abarai .jpg',
+    4: 'Byakuya Kuchiki.jpg',
+    5: 'Kenpachi ZARAKI .jpg',
+    6: 'Tōshirō Hitsugaya.jpg',
+    7: 'Aizen.jpg',
+    8: 'Urahara.jpg',
+    9: 'Yoruichi Shihouin.jpg',
+    10: 'Orihime Inoue.jpg',
+    11: 'Chad Sado.jpg',
+    12: 'Ishida Uryuu.jpg',
+    13: 'Gin ichimaru.jpg',
+    14: 'matsumoto.jpg',
+    15: 'ukitake.jpg',
+    16: 'Shunsui Kyōraku.jpg'
+};
+
 async function request(path, options = {}) {
     const config = { ...options, headers: { Accept: 'application/json', ...options.headers } };
     if (options.body) config.headers['Content-Type'] = 'application/json';
@@ -109,6 +128,7 @@ function renderHome() {
     const { personajes, divisiones, zanpakutos, habilidades } = state.data;
     content.innerHTML = `
         <section class="hero">
+            <img class="hero-panorama" src="${contextPath}/assets/images/portada/portada.jpg" alt="" aria-hidden="true">
             <div class="hero-copy">
                 <p class="eyebrow">Crónicas de la Sociedad de Almas</p>
                 <h1>BLEACH<br><span>SOUL SOCIETY</span></h1>
@@ -118,7 +138,6 @@ function renderHome() {
                     <button class="button button-secondary" type="button" data-view="divisiones">Conocer el Gotei 13</button>
                 </div>
             </div>
-            <div class="hero-emblem" aria-hidden="true">卍</div>
         </section>
         <div class="stats-grid" aria-label="Registros consultados en la base de datos">
             ${statCard('Personajes', personajes.length, '✦')}
@@ -238,33 +257,71 @@ function characterCard(personaje) {
 
 function portrait(personaje) {
     const initials = [personaje.nombre, personaje.apellido].filter(Boolean).map(part => part.charAt(0)).join('').slice(0, 2);
-    return `<div class="portrait"><img src="${contextPath}/assets/images/personajes/${Number(personaje.id)}.webp" alt="Retrato local de ${escapeHtml(fullName(personaje))}"><span class="portrait-fallback" aria-hidden="true">${escapeHtml(initials || '魂')}</span></div>`;
+    return `<div class="portrait">${imageMarker('personajes', personaje, fullName(personaje))}<span class="portrait-fallback" aria-hidden="true">${escapeHtml(initials || '魂')}</span></div>`;
+}
+
+function imageMarker(kind, record, recordName) {
+    const category = {
+        personajes: 'personaje',
+        divisiones: 'división',
+        zanpakutos: 'zanpakuto',
+        habilidades: 'habilidad'
+    }[kind];
+    const photo = kind === 'personajes' ? characterImages[Number(record.id)] : null;
+    const markerPath = `${contextPath}/assets/images/${kind}/marcador.svg`;
+    const imagePath = photo
+        ? `${contextPath}/assets/images/personajes/${encodeURIComponent(photo)}`
+        : markerPath;
+    const description = photo
+        ? `Retrato local de ${recordName}; licencia pendiente de verificar.`
+        : `Marcador original para ${category} ${recordName}; fotografía específica pendiente de autorización.`;
+    const fallback = photo ? `data-fallback-src="${markerPath}"` : '';
+    return `<img src="${imagePath}" ${fallback} alt="${escapeHtml(description)}" title="${escapeHtml(description)}" data-record-id="${record.id}" data-record-kind="${kind}" loading="lazy">`;
 }
 
 function wirePortraits(root) {
     root.querySelectorAll('.portrait img').forEach(image => {
         const fallback = image.nextElementSibling;
-        image.addEventListener('load', () => { fallback.hidden = true; }, { once: true });
-        image.addEventListener('error', () => { image.hidden = true; fallback.hidden = false; }, { once: true });
+        image.addEventListener('load', () => {
+            image.hidden = false;
+            fallback.hidden = true;
+        });
+        image.addEventListener('error', () => {
+            if (image.dataset.fallbackSrc && !image.dataset.fallbackAttempted) {
+                image.dataset.fallbackAttempted = 'true';
+                image.src = image.dataset.fallbackSrc;
+            } else {
+                image.hidden = true;
+                fallback.hidden = false;
+            }
+        });
         if (image.complete) {
-            if (image.naturalWidth) fallback.hidden = true;
-            else { image.hidden = true; fallback.hidden = false; }
+            if (image.naturalWidth) {
+                image.hidden = false;
+                fallback.hidden = true;
+            } else if (image.dataset.fallbackSrc && !image.dataset.fallbackAttempted) {
+                image.dataset.fallbackAttempted = 'true';
+                image.src = image.dataset.fallbackSrc;
+            } else {
+                image.hidden = true;
+                fallback.hidden = false;
+            }
         }
     });
 }
 
 function divisionCard(division) {
     const count = state.data.personajes.filter(personaje => Number(personaje.divisionId) === Number(division.id)).length;
-    return `<article class="archive-card entity-card"><div class="entity-card-top"><div><p class="eyebrow">Escuadrón ${division.id}</p><h3>${escapeHtml(division.nombre)}</h3></div><span class="entity-symbol" aria-hidden="true">⌘</span></div><p>${escapeHtml(division.descripcion || 'Sin descripción registrada.')}</p><div class="card-footer"><span class="tag">${count} ${count === 1 ? 'personaje' : 'personajes'}</span>${recordActions('divisiones', division)}</div></article>`;
+    return `<article class="archive-card entity-card"><div class="entity-card-top"><div><p class="eyebrow">Escuadrón ${division.id}</p><h3>${escapeHtml(division.nombre)}</h3></div><span class="entity-symbol">${imageMarker('divisiones', division, division.nombre)}</span></div><p>${escapeHtml(division.descripcion || 'Sin descripción registrada.')}</p><div class="card-footer"><span class="tag">${count} ${count === 1 ? 'personaje' : 'personajes'}</span>${recordActions('divisiones', division)}</div></article>`;
 }
 
 function zanpakutoCard(zanpakuto) {
     const owner = findPersonaje(zanpakuto.personajeId);
-    return `<article class="archive-card entity-card"><div class="entity-card-top"><div><p class="eyebrow">Zanpakuto · #${zanpakuto.id}</p><h3>${escapeHtml(zanpakuto.nombre)}</h3></div><span class="entity-symbol" aria-hidden="true">〽</span></div><p>Portador: ${escapeHtml(owner ? fullName(owner) : `Registro #${zanpakuto.personajeId}`)}<br>Shikai: ${escapeHtml(zanpakuto.shikai || 'No registrado')}<br>Bankai: ${escapeHtml(zanpakuto.bankai || 'No registrado')}</p><div class="card-footer"><span class="tag tag-accent">Arma espiritual</span>${recordActions('zanpakutos', zanpakuto)}</div></article>`;
+    return `<article class="archive-card entity-card"><div class="entity-card-top"><div><p class="eyebrow">Zanpakuto · #${zanpakuto.id}</p><h3>${escapeHtml(zanpakuto.nombre)}</h3></div><span class="entity-symbol">${imageMarker('zanpakutos', zanpakuto, zanpakuto.nombre)}</span></div><p>Portador: ${escapeHtml(owner ? fullName(owner) : `Registro #${zanpakuto.personajeId}`)}<br>Shikai: ${escapeHtml(zanpakuto.shikai || 'No registrado')}<br>Bankai: ${escapeHtml(zanpakuto.bankai || 'No registrado')}</p><div class="card-footer"><span class="tag tag-accent">Arma espiritual</span>${recordActions('zanpakutos', zanpakuto)}</div></article>`;
 }
 
 function habilidadCard(habilidad) {
-    return `<article class="archive-card entity-card"><div class="entity-card-top"><div><p class="eyebrow">Técnica · #${habilidad.id}</p><h3>${escapeHtml(habilidad.nombre)}</h3></div><span class="entity-symbol" aria-hidden="true">✧</span></div><p>${escapeHtml(habilidad.descripcion || 'Sin descripción registrada.')}</p><div class="card-footer"><span class="tag tag-accent">${escapeHtml(habilidad.tipo)}</span>${recordActions('habilidades', habilidad)}</div></article>`;
+    return `<article class="archive-card entity-card"><div class="entity-card-top"><div><p class="eyebrow">Técnica · #${habilidad.id}</p><h3>${escapeHtml(habilidad.nombre)}</h3></div><span class="entity-symbol">${imageMarker('habilidades', habilidad, habilidad.nombre)}</span></div><p>${escapeHtml(habilidad.descripcion || 'Sin descripción registrada.')}</p><div class="card-footer"><span class="tag tag-accent">${escapeHtml(habilidad.tipo)}</span>${recordActions('habilidades', habilidad)}</div></article>`;
 }
 
 function getRecord(kind, id) {

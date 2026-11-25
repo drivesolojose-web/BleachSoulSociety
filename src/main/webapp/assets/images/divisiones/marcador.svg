@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+    <title id="title">Marcador geométrico de división</title>
+    <desc id="desc">Emblema geométrico original, no es una insignia oficial.</desc>
+    <defs>
+        <radialGradient id="bg"><stop stop-color="#3a2725"/><stop offset="1" stop-color="#17181c"/></radialGradient>
+    </defs>
+    <rect width="128" height="128" rx="12" fill="url(#bg)"/>
+    <circle cx="64" cy="64" r="43" fill="none" stroke="#f47735" stroke-opacity=".66" stroke-width="2"/>
+    <circle cx="64" cy="64" r="31" fill="none" stroke="#f4b184" stroke-opacity=".55"/>
+    <path d="M64 24 72 56 104 64 72 72 64 104 56 72 24 64 56 56Z" fill="#f47735" fill-opacity=".28" stroke="#ff9a5c" stroke-width="2"/>
+    <circle cx="64" cy="64" r="8" fill="#ffd2a7"/>
+    <g fill="#ff9a5c">
+        <circle cx="64" cy="15" r="2"/><circle cx="88" cy="22" r="2"/><circle cx="106" cy="40" r="2"/><circle cx="113" cy="64" r="2"/>
+        <circle cx="106" cy="88" r="2"/><circle cx="88" cy="106" r="2"/><circle cx="64" cy="113" r="2"/><circle cx="40" cy="106" r="2"/>
+        <circle cx="22" cy="88" r="2"/><circle cx="15" cy="64" r="2"/><circle cx="22" cy="40" r="2"/><circle cx="40" cy="22" r="2"/>
+    </g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+    <title id="title">Marcador genérico de arma</title>
+    <desc id="desc">Ilustración abstracta de una espada, no representa una zanpakuto concreta.</desc>
+    <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#35282a"/><stop offset="1" stop-color="#15171b"/></linearGradient>
+        <linearGradient id="blade" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff1dc"/><stop offset=".45" stop-color="#ff9a5c"/><stop offset="1" stop-color="#bd4540"/></linearGradient>
+    </defs>
+    <rect width="128" height="128" rx="12" fill="url(#bg)"/>
+    <circle cx="64" cy="64" r="46" fill="none" stroke="#f47735" stroke-opacity=".22"/>
+    <path d="m82 23 10 10-42 55-8-7z" fill="url(#blade)" stroke="#ffe0bd" stroke-opacity=".7"/>
+    <path d="m35 70 23 18-7 9-23-18z" fill="#e9b282"/>
+    <path d="m27 82 20 16-6 7-20-16z" fill="#c94f42"/>
+    <path d="m21 98 12 9-8 9-12-9z" fill="#f1d0aa"/>
+    <path d="M91 31 44 91" stroke="#fff7ed" stroke-opacity=".8" stroke-width="2"/>
+</svg>

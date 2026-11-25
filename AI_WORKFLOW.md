@@ -115,3 +115,23 @@
 - Las consultas API para `Capitán`, `Primera División`, `Undécima División`, `Hohō`, `Kidō` y `Shinsō` devolvieron HTTP 200 con `application/json;charset=UTF-8` y los puntos de código esperados. La página, CSS e icono SVG local de katana también respondieron HTTP 200.
 - Antes de ejecutar la migración se creó el volcado lógico completo `bleachsoulsociety_pre_utf8_20261125_2106.sql` (10 341 bytes; SHA-256 `CA7BEF2690F1ACF57BFB5BFB649301F296C689312135204D6A90FAFFA8C39B1D`), conservado localmente y excluido de Git.
 - `node --check`, `docker compose config --quiet`, `git diff --check` y `git diff --cached --check` finalizaron correctamente.
+
+## Imágenes locales incorporadas manualmente
+
+### Prompt registrado
+
+> He añadido manualmente imágenes dentro de las carpetas personajes, divisiones, zanpakutos, habilidades y portada de src/main/webapp/assets/images. Revisa todas las imágenes existentes, identifica a qué registro corresponde cada una según su nombre de archivo y los datos de MySQL, renómbralas de forma organizada si es necesario y modifica el frontend para que cada registro muestre su imagen correspondiente. Utiliza portada.jpg como imagen principal de la página de inicio con un degradado oscuro para mantener la legibilidad del texto. Mejora el tamaño de los retratos de los personajes para que tengan mayor protagonismo visual, manteniendo una estética profesional de Bleach y el diseño responsivo. Conserva los archivos marcador.svg como imágenes alternativas para los registros que no tengan fotografía. No descargues imágenes adicionales, no elimines datos ni modifiques innecesariamente el backend. Comprueba que las rutas de las imágenes sean correctas y que todos los recursos se carguen correctamente. Reconstruye la aplicación mediante Docker Compose, ejecuta las pruebas automatizadas y comprueba que no se pierde ningún registro de MySQL. Actualiza README.md y AI_WORKFLOW.md documentando que el alumno ha incorporado las imágenes manualmente. Registra los cambios de código en Git y deja las imágenes cuya licencia no esté verificada pendientes de autorización antes de publicarlas. No publiques todavía el repositorio ni inventes licencias o resultados de pruebas. Al terminar, indica las imágenes asociadas, las que faltan y los resultados de las comprobaciones.
+
+### Decisiones y cambios reales
+
+- Se revisaron visualmente las 16 fotografías de `personajes` y `portada/portada.jpg`, y se compararon los retratos con los 16 registros reales de MySQL. Los nombres existentes son suficientes para identificarlas, por lo que no se renombraron; `app.js` las vincula de forma explícita por ID, incluso cuando el nombre del archivo difiere del registro (por ejemplo, Uryu Ishida/Ishida Uryuu y Yasutora Sado/Chad Sado).
+- La portada ahora muestra `portada.jpg` con un degradado oscuro; los retratos se ampliaron en tarjetas y fichas con ajustes responsivos. Si falta o falla una fotografía de personaje, se carga el `marcador.svg` local; las divisiones, zanpakutos y habilidades siguen usando sus marcadores porque no tienen imágenes específicas.
+- El alumno incorporó las fotografías manualmente. No se proporcionó ni verificó su procedencia o licencia; no se atribuyen derechos y queda pendiente obtener autorización antes de publicar o redistribuir el proyecto. No se descargaron imágenes ni se modificó el backend. Los JPG permanecen en el árbol de trabajo local y se excluyeron del commit; en una copia limpia se conserva el fallback de marcadores.
+- El inventario en `src/main/webapp/assets/images/README.md` registra los 16 archivos asociados, la portada, las 37 imágenes específicas que faltan y el estado de autorización.
+
+### Comprobaciones realizadas
+
+- `docker compose up --build -d app` reconstruyó y arrancó la aplicación. Durante el build, `mvn clean verify` ejecutó 16 pruebas: 0 fallos, 0 errores y 0 omitidas.
+- Antes y después de reconstruir, MySQL conservó los mismos recuentos: 16 personajes, 13 divisiones, 12 zanpakutos, 12 habilidades y 61 relaciones `personaje_habilidad`.
+- Las 16 rutas de retrato asociadas devolvieron HTTP 200 con `image/jpeg`; `portada.jpg`, los cuatro marcadores, el marcador de personajes y los SVG locales también respondieron HTTP 200 con sus tipos de imagen esperados. La página, `app.js` y `styles.css` respondieron HTTP 200.
+- `node --check` y `git diff --check` finalizaron correctamente. No se realizó una inspección visual de la interfaz en navegador.

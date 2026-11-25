@@ -1,5 +1,5 @@
 # Retratos de personajes
 
-La interfaz muestra un marcador visual original cuando no hay retrato local disponible. Para añadir imágenes con permiso de uso, guarda cada archivo WebP con el identificador numérico del personaje, por ejemplo `1.webp` o `2.webp`, en esta carpeta. La web detecta automáticamente el retrato y conserva el marcador si el archivo falta.
+La interfaz asocia por ID las fotografías locales documentadas en `../README.md` con los personajes obtenidos de la API. El alumno incorporó manualmente los archivos; se desconoce su procedencia y licencia, por lo que su publicación o redistribución queda pendiente de autorización.
 
-No se incluyen imágenes con derechos de terceros.
+`marcador.svg` se conserva como alternativa para personajes sin fotografía o cuando no se puede cargar el archivo local. Antes de añadir o reemplazar imágenes, documenta su origen, autor y licencia en el inventario de imágenes.

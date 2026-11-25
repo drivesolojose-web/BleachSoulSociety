@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 160" role="img" aria-labelledby="title desc">
+    <title id="title">Marcador genérico de personaje</title>
+    <desc id="desc">Silueta humana abstracta, no asociada a un personaje concreto.</desc>
+    <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#312529"/><stop offset="1" stop-color="#15171c"/></linearGradient>
+        <linearGradient id="figure" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f47735" stop-opacity=".88"/><stop offset="1" stop-color="#9c3e38" stop-opacity=".72"/></linearGradient>
+        <radialGradient id="halo"><stop stop-color="#f47735" stop-opacity=".3"/><stop offset="1" stop-color="#f47735" stop-opacity="0"/></radialGradient>
+    </defs>
+    <rect width="128" height="160" rx="8" fill="url(#bg)"/>
+    <circle cx="65" cy="62" r="57" fill="url(#halo)"/>
+    <circle cx="64" cy="54" r="23" fill="url(#figure)"/>
+    <path d="M19 150c2-34 19-53 45-53s43 19 45 53z" fill="url(#figure)"/>
+    <path d="M64 99v48M34 119l30 17 30-17" fill="none" stroke="#ffd0ae" stroke-opacity=".4" stroke-width="2"/>
+    <path d="M12 12h20M12 12v20M116 12H96m20 0v20M12 148h20m-20 0v-20m104 20H96m20 0v-20" fill="none" stroke="#ff9a5c" stroke-opacity=".52"/>
+</svg>
