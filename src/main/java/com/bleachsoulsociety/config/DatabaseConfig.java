@@ -11,6 +11,8 @@ public final class DatabaseConfig {
         HikariConfig config = new HikariConfig();
         // La URL y las credenciales se configuran en el entorno de Tomcat, nunca en el código fuente.
         config.setJdbcUrl(obligatoria("DB_URL"));
+        // Tomcat carga cada WAR con su propio classloader; se indica el driver para Hikari explícitamente.
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
         config.setUsername(obligatoria("DB_USER"));
         config.setPassword(obligatoria("DB_PASSWORD"));
         config.setMaximumPoolSize(Integer.parseInt(System.getenv().getOrDefault("DB_POOL_SIZE", "10")));

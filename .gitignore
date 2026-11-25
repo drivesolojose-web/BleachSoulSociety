@@ -1,10 +1,12 @@
 target/
-.env
+.env*
+!.env.example
 *.log
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
+.idea/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -36,6 +38,8 @@ build/
 
 ### VS Code ###
 .vscode/
+node_modules/
+coverage/
 
 ### Mac OS ###
 .DS_Store

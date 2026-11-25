@@ -1,7 +1,5 @@
-CREATE DATABASE IF NOT EXISTS bleach_soul_society
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
-USE bleach_soul_society;
+-- Docker selecciona la base indicada por MYSQL_DATABASE antes de ejecutar este archivo.
+-- Para una ejecución manual, crea y selecciona primero la base de datos que vayas a utilizar.
 
 CREATE TABLE IF NOT EXISTS divisiones (
     id INT AUTO_INCREMENT PRIMARY KEY,
