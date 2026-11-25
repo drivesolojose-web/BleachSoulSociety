@@ -135,3 +135,28 @@
 - Antes y después de reconstruir, MySQL conservó los mismos recuentos: 16 personajes, 13 divisiones, 12 zanpakutos, 12 habilidades y 61 relaciones `personaje_habilidad`.
 - Las 16 rutas de retrato asociadas devolvieron HTTP 200 con `image/jpeg`; `portada.jpg`, los cuatro marcadores, el marcador de personajes y los SVG locales también respondieron HTTP 200 con sus tipos de imagen esperados. La página, `app.js` y `styles.css` respondieron HTTP 200.
 - `node --check` y `git diff --check` finalizaron correctamente. No se realizó una inspección visual de la interfaz en navegador.
+
+## Revisión personal del alumno
+
+Fecha: 25/11/2026.
+
+Durante el desarrollo del proyecto he utilizado Junie desde la terminal de Windows, trabajando sobre un proyecto Maven creado en IntelliJ IDEA.
+
+He realizado las siguientes tareas personalmente:
+
+- Selección de la temática del anime Bleach.
+- Configuración inicial del proyecto con Java 21 y Maven.
+- Supervisión de las instrucciones y permisos de Junie.
+- Comprobación del funcionamiento de Docker Desktop.
+- Revisión visual de la aplicación en el navegador.
+- Comprobación del diseño adaptable a dispositivos móviles.
+- Revisión de las cinco tablas de MySQL mediante phpMyAdmin.
+- Detección de errores de codificación en los textos de la aplicación.
+- Solicitud y supervisión de una copia de seguridad antes de corregir los datos.
+- Selección e incorporación manual de las imágenes de los personajes y la portada.
+- Solicitud de sustitución del logotipo original por una katana.
+- Comprobación visual de las imágenes y de la corrección de los caracteres especiales.
+- Revisión de la documentación técnica del proyecto.
+
+Junie ha realizado la programación y las pruebas automatizadas bajo mi supervisión. La última ejecución ha obtenido 16 pruebas superadas, sin fallos ni errores.
+
