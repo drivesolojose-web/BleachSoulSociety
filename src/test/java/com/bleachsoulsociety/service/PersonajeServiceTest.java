@@ -6,88 +6,75 @@ import com.bleachsoulsociety.dto.PersonajeRequest;
 import com.bleachsoulsociety.exception.NotFoundException;
 import com.bleachsoulsociety.exception.ValidationException;
 import com.bleachsoulsociety.model.Personaje;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 class PersonajeServiceTest {
-    private PersonajeService servicio;
-    private PersonajeDaoMemoria dao;
-
-    @BeforeEach
-    void preparar() {
-        dao = new PersonajeDaoMemoria();
-        servicio = new PersonajeService(dao);
-    }
+    private final PersonajeDao dao = mock(PersonajeDao.class);
+    private final PersonajeService servicio = new PersonajeService(dao);
 
     @Test
     void crearDevuelveDatosLimpiosEnUnDto() {
+        when(dao.create(any(Personaje.class))).thenReturn(1);
+        when(dao.findById(1)).thenReturn(Optional.of(
+                new Personaje(1, "Ichigo", "Kurosaki", "Shinigami", "Sustituto", null)));
+
         PersonajeDto resultado = servicio.crear(new PersonajeRequest(" Ichigo ", " Kurosaki ",
                 "Shinigami", "Sustituto", null));
 
         assertEquals(1, resultado.id());
         assertEquals("Ichigo", resultado.nombre());
         assertEquals("Kurosaki", resultado.apellido());
+        verify(dao).create(new Personaje(null, "Ichigo", "Kurosaki", "Shinigami", "Sustituto", null));
     }
 
     @Test
     void crearRechazaNombreVacio() {
         assertThrows(ValidationException.class, () -> servicio.crear(
                 new PersonajeRequest("  ", "Kurosaki", "Shinigami", null, null)));
-        assertEquals(0, dao.personajes.size());
+        verifyNoInteractions(dao);
     }
 
     @Test
     void listarRechazaUnFiltroDeDivisionNoPositivo() {
         assertThrows(ValidationException.class, () -> servicio.listar(null, 0));
+        verifyNoInteractions(dao);
     }
 
     @Test
     void buscarInexistenteDevuelveNotFound() {
         assertThrows(NotFoundException.class, () -> servicio.buscar(99));
+        assertThrows(ValidationException.class, () -> servicio.buscar(0));
     }
 
-    private static class PersonajeDaoMemoria implements PersonajeDao {
-        private final List<Personaje> personajes = new ArrayList<>();
+    @Test
+    void listarConvierteLosResultadosYConservaLosFiltros() {
+        when(dao.findAll("Ichigo", 2)).thenReturn(List.of(
+                new Personaje(1, "Ichigo", "Kurosaki", "Shinigami", null, 2)));
 
-        @Override
-        public List<Personaje> findAll(String nombre, Integer divisionId) {
-            return List.copyOf(personajes);
-        }
+        List<PersonajeDto> resultado = servicio.listar("Ichigo", 2);
 
-        @Override
-        public Optional<Personaje> findById(int id) {
-            return personajes.stream().filter(personaje -> personaje.id() == id).findFirst();
-        }
+        assertEquals(1, resultado.size());
+        assertEquals("Kurosaki", resultado.get(0).apellido());
+        verify(dao).findAll("Ichigo", 2);
+    }
 
-        @Override
-        public int create(Personaje personaje) {
-            Personaje nuevo = new Personaje(1, personaje.nombre(), personaje.apellido(),
-                    personaje.especie(), personaje.rango(), personaje.divisionId());
-            personajes.add(nuevo);
-            return nuevo.id();
-        }
+    @Test
+    void eliminarUnRegistroInexistenteDevuelveNotFound() {
+        when(dao.delete(7)).thenReturn(false);
 
-        @Override
-        public boolean update(Personaje personaje) {
-            for (int i = 0; i < personajes.size(); i++) {
-                if (personajes.get(i).id().equals(personaje.id())) {
-                    personajes.set(i, personaje);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        @Override
-        public boolean delete(int id) {
-            return personajes.removeIf(personaje -> personaje.id() == id);
-        }
+        assertThrows(NotFoundException.class, () -> servicio.eliminar(7));
+        verify(dao, never()).update(any(Personaje.class));
     }
 }
