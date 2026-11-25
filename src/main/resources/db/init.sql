@@ -1,12 +1,14 @@
 -- Docker selecciona la base indicada por MYSQL_DATABASE antes de ejecutar este archivo.
 -- Para una ejecución manual, crea y selecciona primero la base de datos que vayas a utilizar.
+SET NAMES utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+ALTER DATABASE CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS divisiones (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE,
     descripcion VARCHAR(500),
     CONSTRAINT chk_divisiones_nombre CHECK (CHAR_LENGTH(TRIM(nombre)) > 0)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS personajes (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -20,7 +22,7 @@ CREATE TABLE IF NOT EXISTS personajes (
     CONSTRAINT chk_personajes_nombre CHECK (CHAR_LENGTH(TRIM(nombre)) > 0),
     INDEX idx_personajes_nombre (nombre),
     INDEX idx_personajes_division (division_id)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS zanpakutos (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -33,7 +35,7 @@ CREATE TABLE IF NOT EXISTS zanpakutos (
     CONSTRAINT chk_zanpakutos_nombre CHECK (CHAR_LENGTH(TRIM(nombre)) > 0),
     INDEX idx_zanpakutos_personaje (personaje_id),
     INDEX idx_zanpakutos_nombre (nombre)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS habilidades (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -42,7 +44,7 @@ CREATE TABLE IF NOT EXISTS habilidades (
     tipo VARCHAR(50) NOT NULL,
     CONSTRAINT chk_habilidades_nombre CHECK (CHAR_LENGTH(TRIM(nombre)) > 0),
     CONSTRAINT chk_habilidades_tipo CHECK (CHAR_LENGTH(TRIM(tipo)) > 0)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS personaje_habilidad (
     personaje_id INT NOT NULL,
@@ -53,7 +55,7 @@ CREATE TABLE IF NOT EXISTS personaje_habilidad (
     CONSTRAINT fk_personaje_habilidad_habilidades FOREIGN KEY (habilidad_id)
         REFERENCES habilidades (id) ON UPDATE CASCADE ON DELETE CASCADE,
     INDEX idx_personaje_habilidad_habilidad (habilidad_id)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Datos iniciales del Gotei 13 y sus aliados.
 INSERT INTO divisiones (id, nombre, descripcion) VALUES

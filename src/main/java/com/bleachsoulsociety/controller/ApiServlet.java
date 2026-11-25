@@ -23,7 +23,7 @@ public abstract class ApiServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json");
+        response.setContentType("application/json;charset=UTF-8");
         try {
             super.service(request, response);
         } catch (ValidationException | JsonParseException e) {

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+    <title id="title">Katana original</title>
+    <g fill="none" stroke="#f47735" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M34 94 91 37c5-5 10-7 15-7-1 5-3 10-8 15L41 103" stroke-width="5"/>
+        <path d="m29 89 10 10M22 96l10 10m-3-17 10 10" stroke-width="4"/>
+        <path d="m38 87 8 8m-2-15 8 8m-2-15 8 8m-2-15 8 8m-2-15 8 8m-2-15 8 8" stroke-width="2" opacity=".8"/>
+        <path d="M78 42 91 55" stroke-width="5"/>
+        <path d="M91 37 101 47" stroke-width="2" opacity=".75"/>
+    </g>
+</svg>

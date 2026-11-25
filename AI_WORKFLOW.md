@@ -77,3 +77,41 @@
 - Observaciones y cambios manuales: _Escribe aquí tus revisiones, correcciones y decisiones._
 - Fecha de revisión: ____________________
 - Archivos revisados: ____________________
+
+## Recursos gráficos locales y derechos de uso
+
+### Solicitud y decisión
+
+- Se solicitó localizar y descargar imágenes autorizadas de 16 personajes, 13 divisiones, 12 zanpakutos, 12 habilidades y una panorámica, con asociación comprobable, archivos locales y procedencia/licencia documentadas.
+- Las imágenes oficiales de Bleach están protegidas por derechos de sus titulares. La información de derechos de VIZ identifica los avisos de copyright de Bleach (Tite Kubo/Shueisha y, para la animación, TV TOKYO, dentsu y Pierrot); la política de imágenes de Bleach Wiki también indica que las imágenes oficiales no pasan a ser de libre uso por aparecer en una wiki. Referencias consultadas: <https://www.viz.com/copyrights> y <https://bleach.fandom.com/wiki/Bleach_Wiki:Image_Policy>.
+- No se encontró una autorización o licencia abierta verificable para redistribuir las imágenes solicitadas, y no es posible pedir permisos al titular desde este proyecto. Por tanto no se descargó arte oficial, capturas, fanart ni imágenes de wikis.
+- Se añadieron `panorama.svg` y marcadores vectoriales genéricos originales para las cuatro categorías. Los SVG no incorporan recursos externos ni representan personajes, insignias, armas o técnicas concretas; la interfaz los asocia de forma accesible a cada nombre e ID proveniente de la API.
+- El inventario con los 53 registros a los que falta una ilustración específica está en `src/main/webapp/assets/images/README.md`. Los marcadores son recursos originales del proyecto; el repositorio no declara una licencia general ni una licencia separada de activos, así que no se les atribuye una licencia de terceros.
+- Para sustituir un marcador, el alumno debe aportar o conseguir permiso explícito para el recurso, conservar la atribución/licencia requerida y actualizar el inventario antes de incluirlo en una distribución.
+
+### Archivos y comprobaciones
+
+- Añadidos `assets/images/portada/panorama.svg`, y `marcador.svg` en las carpetas `personajes`, `divisiones`, `zanpakutos` y `habilidades`; actualizados `app.js`, `styles.css`, el README de imágenes y la documentación principal.
+- Pendiente: no se pudieron descargar ni verificar retratos o ilustraciones oficiales por falta de permiso/licencia disponible. No se afirma que los marcadores correspondan visualmente a los personajes, divisiones, armas o habilidades.
+
+## Corrección de codificación UTF-8 y símbolo de katana
+
+### Prompt registrado
+
+> He comprobado nuevamente la aplicación desde el navegador y siguen apareciendo errores de codificación como CapitÃ¡n, DivisiÃ³n y UndÃ©cima. Corrige definitivamente la codificación UTF-8 de toda la aplicación, revisando MySQL, los datos existentes, init.sql, JDBC y las respuestas JSON. Corrige los registros afectados sin eliminar la base de datos ni perder información. Sustituye también el símbolo con forma de esvástica que aparece en el menú lateral y en la portada por un icono original de una katana. Conserva el diseño actual y todas las funcionalidades. Reconstruye la aplicación con Docker, comprueba mediante la API que los caracteres especiales se muestran correctamente y ejecuta las pruebas automatizadas. Documenta las correcciones reales en AI_WORKFLOW.md y realiza un commit descriptivo. No busques ni descargues más imágenes, porque las añadiré manualmente.
+
+### Diagnóstico, decisiones y cambios reales
+
+- La base persistente ya tenía charset y collation `utf8mb4`, y la API ya emitía `application/json;charset=UTF-8`; aun así, había texto almacenado como mojibake. Se comprobó el daño inspeccionando los bytes hexadecimales de campos en las cuatro entidades.
+- `src/main/resources/db/utf8mb4_migration.sql` convierte las cinco tablas a `utf8mb4` y reinterpreta condicionalmente solo valores cuyos bytes coinciden con las secuencias dañadas. La transformación se verificó con ejemplos acentuados y con `Hohō`/`Shinsō`; no elimina registros y puede repetirse sin volver a alterar los valores reparados.
+- `init.sql`, las opciones de servidor MySQL, JDBC/HikariCP y el tipo de contenido JSON fijan explícitamente UTF-8/`utf8mb4`. La migración se aplicó al volumen ya existente sin eliminarlo ni volver a ejecutar los datos semilla.
+- Se reemplazaron los símbolos del menú lateral y la tarjeta de portada por `assets/images/katana.svg`, un vector original creado localmente. No se buscaron ni descargaron otras imágenes; se conserva el diseño y las interacciones existentes.
+- Se añadió una prueba DAO aislada que verifica el recorrido de acentos y caracteres Unicode en divisiones, personajes, zanpakutos y habilidades.
+
+### Comprobaciones realizadas
+
+- `docker compose up --build -d app` reconstruyó y desplegó la aplicación; `mvn clean verify` dentro de la imagen Maven ejecutó 16 pruebas, con 0 fallos, 0 errores y 0 omitidas.
+- Antes y después de migrar y recrear el contenedor se mantuvieron 16 personajes, 13 divisiones, 12 zanpakutos, 12 habilidades y 61 relaciones `personaje_habilidad`. Las cinco tablas usan `utf8mb4_0900_ai_ci`; la revisión hexadecimal no encontró secuencias dañadas en ninguna columna textual auditada.
+- Las consultas API para `Capitán`, `Primera División`, `Undécima División`, `Hohō`, `Kidō` y `Shinsō` devolvieron HTTP 200 con `application/json;charset=UTF-8` y los puntos de código esperados. La página, CSS e icono SVG local de katana también respondieron HTTP 200.
+- Antes de ejecutar la migración se creó el volcado lógico completo `bleachsoulsociety_pre_utf8_20261125_2106.sql` (10 341 bytes; SHA-256 `CA7BEF2690F1ACF57BFB5BFB649301F296C689312135204D6A90FAFFA8C39B1D`), conservado localmente y excluido de Git.
+- `node --check`, `docker compose config --quiet`, `git diff --check` y `git diff --cached --check` finalizaron correctamente.

@@ -136,4 +136,18 @@ class JdbcDaoIntegrationTest {
         assertThrows(NotFoundException.class, () -> personajeHabilidades.assign(999, habilidadId));
         assertThrows(NotFoundException.class, () -> personajeHabilidades.assign(personajeId, 999));
     }
+
+    @Test
+    void daoConservanCaracteresUtf8EnEntidadesRelacionadas() {
+        int divisionId = divisiones.create(new Division(null, "Undécima División", "División de combate."));
+        int personajeId = personajes.create(new Personaje(null, "Rukia", "Kuchiki", "Shinigami", "Capitán", divisionId));
+        int zanpakutoId = zanpakutos.create(new Zanpakuto(null, personajeId, "Sōgyo no Kotowari", "Shinsō", null));
+        int habilidadId = habilidades.create(new Habilidad(null, "Kidō", "Técnica espiritual", "Percepción"));
+
+        assertEquals("Undécima División", divisiones.findById(divisionId).orElseThrow().nombre());
+        assertEquals("Capitán", personajes.findById(personajeId).orElseThrow().rango());
+        assertEquals("Shinsō", zanpakutos.findById(zanpakutoId).orElseThrow().shikai());
+        assertEquals("Kidō", habilidades.findById(habilidadId).orElseThrow().nombre());
+        assertEquals("Técnica espiritual", habilidades.findById(habilidadId).orElseThrow().descripcion());
+    }
 }

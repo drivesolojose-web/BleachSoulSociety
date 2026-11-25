@@ -94,7 +94,9 @@ erDiagram
 ├── src/main/resources/db/init.sql
 ├── src/main/webapp/
 │   ├── index.html
-│   └── assets/{css,js,images}/
+│   └── assets/
+│       ├── css/ y js/
+│       └── images/{portada,personajes,divisiones,zanpakutos,habilidades}/
 └── src/test/java/com/bleachsoulsociety/
     ├── dao/          # Integración JDBC con H2 en memoria
     └── service/      # Pruebas unitarias con Mockito
@@ -121,7 +123,7 @@ erDiagram
 | `APP_PORT` | `8080` | Puerto HTTP publicado para la aplicación |
 | `PHPMYADMIN_PORT` | `8081` | Puerto HTTP publicado para phpMyAdmin |
 
-Las credenciales de la plantilla son solo para desarrollo local: cámbialas antes de cualquier uso compartido o despliegue público. Java no contiene URLs ni credenciales de conexión. El puerto `3306` no se publica al host.
+Las credenciales de la plantilla son solo para desarrollo local: cámbialas antes de cualquier uso compartido o despliegue público. Java no contiene URLs ni credenciales de conexión. El puerto `3306` no se publica al host. JDBC usa explícitamente UTF-8 y `utf8mb4_0900_ai_ci`.
 
 ## Instalación y despliegue con Docker
 
@@ -158,12 +160,16 @@ docker compose start
 
 Los datos permanecen en el volumen `mysql_data`. No uses `docker compose down -v` si quieres conservarlos. El script de inicialización no vuelve a ejecutarse sobre una base que ya tiene datos; para una base nueva se crea otro volumen, pero no borres volúmenes con datos que quieras conservar.
 
+### Codificación UTF-8 y reparación de una base existente
+
+MySQL, las tablas y las conexiones JDBC se configuran con `utf8mb4`; la API responde JSON con `charset=UTF-8`. `init.sql` aplica estos valores al crear una base nueva. Si una base persistente contiene texto dañado por una conversión anterior, ejecuta `src/main/resources/db/utf8mb4_migration.sql` una vez seleccionando `DB_NAME` (por ejemplo, impórtalo en phpMyAdmin con el usuario `root`). La migración convierte las tablas y solo reinterpreta cadenas que coinciden con los bytes de mojibake; no borra tablas ni registros y es idempotente. No borres el volumen para aplicar esta reparación.
+
 ### Ejecución manual sin Docker
 
 Se necesita JDK 21, Maven y MySQL instalados por separado. Crea y selecciona la base antes de ejecutar el script:
 
 ```sql
-CREATE DATABASE bleach_soul_society CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE bleach_soul_society CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE bleach_soul_society;
 SOURCE src/main/resources/db/init.sql;
 ```
@@ -183,7 +189,7 @@ Ese comando necesita JDK 21 y Maven instalados. También se ejecuta durante `doc
 - Validaciones y conversión a DTO en los servicios mediante Mockito.
 - Una base H2 aislada y nueva para cada prueba JDBC; no se usa ni se borra la base MySQL de la aplicación.
 
-Última verificación en el contenedor: `mvn clean verify` completó con **15 pruebas, 0 fallos, 0 errores y 0 omitidas**.
+Última verificación en el contenedor: `mvn clean verify` completó con **16 pruebas, 0 fallos, 0 errores y 0 omitidas**.
 
 ## API
 
@@ -209,4 +215,4 @@ Las creaciones y asignaciones responden `201`; consultas, actualizaciones y elim
 5. Edita con el botón de lápiz o elimina con el botón ×; la interfaz pide confirmación antes de borrar.
 6. La página muestra indicadores de conexión, carga y errores/confirmaciones. Todos los cambios se guardan en MySQL mediante los endpoints reales.
 
-No se incluyen retratos con licencia; los marcadores visuales tienen soporte para imágenes WebP locales por ID en `src/main/webapp/assets/images/personajes/`.
+La web utiliza un panorama local y marcadores SVG originales para personajes, divisiones, zanpakutos y habilidades. No se descargó arte oficial: no se encontró una licencia que permita redistribuirlo. El inventario de los 53 registros sin imagen oficial, la procedencia y las condiciones para incorporar imágenes autorizadas están documentados en `src/main/webapp/assets/images/README.md`.
