@@ -215,4 +215,8 @@ Las creaciones y asignaciones responden `201`; consultas, actualizaciones y elim
 5. Edita con el botón de lápiz o elimina con el botón ×; la interfaz pide confirmación antes de borrar.
 6. La página muestra indicadores de conexión, carga y errores/confirmaciones. Todos los cambios se guardan en MySQL mediante los endpoints reales.
 
-La web utiliza `portada.jpg` como fondo de inicio y asocia las 16 fotografías locales incorporadas manualmente por el alumno con los personajes de MySQL; los retratos se amplían para darles protagonismo y cuentan con `marcador.svg` como alternativa de carga. No hay imágenes específicas para las 13 divisiones, 12 zanpakutos ni 12 habilidades, que conservan sus marcadores. Las fuentes y licencias de las fotografías y de `portada.jpg` no están verificadas: hace falta autorización antes de publicar o redistribuir. Por ese motivo, los JPG se conservan en el árbol local pero no se incluyen en el commit; en una copia limpia se mostrarán los marcadores hasta que se autoricen y añadan. El inventario, las asociaciones y las imágenes pendientes están en `src/main/webapp/assets/images/README.md`.
+### Imágenes locales y permisos de redistribución
+
+- Las 16 fotografías de personajes y `portada/portada.jpg` fueron añadidas manualmente. No se proporcionó ni verificó su procedencia, autoría, licencia o autorización explícita de redistribución.
+- En consecuencia, **ninguna de las 17 imágenes se incluye en Git ni en el ZIP de entrega**. Los archivos originales se mantienen intactos en el ordenador donde se añadieron; quedan pendientes de autorización documentada.
+- Los marcadores SVG y `portada/panorama.svg` permanecen en el proyecto. El inventario con los nombres, asociaciones y estado de permisos está en `src/main/webapp/assets/images/README.md`.

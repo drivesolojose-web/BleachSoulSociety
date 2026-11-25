@@ -160,3 +160,21 @@ He realizado las siguientes tareas personalmente:
 
 Junie ha realizado la programación y las pruebas automatizadas bajo mi supervisión. La última ejecución ha obtenido 16 pruebas superadas, sin fallos ni errores.
 
+## Verificación de permisos y entrega de imágenes locales
+
+### Solicitud registrada
+
+> Quiero que el profesor pueda visualizar la aplicación BleachSoulSociety con las imágenes desde su propio ordenador. Revisa las 16 imágenes de personajes y portada.jpg que he añadido manualmente al proyecto. Incorpora a Git las imágenes que cuenten con autorización de redistribución, conservando sus nombres y rutas actuales. Actualiza README.md y AI_WORKFLOW.md con su procedencia y permisos reales, realiza un commit descriptivo y sube los cambios al repositorio existente de GitHub. Genera también un nuevo archivo BleachSoulSociety_ENTREGA.zip en el escritorio que incluya esas imágenes y todos los archivos necesarios para ejecutar la aplicación. Excluye .env, .git, .idea, target, copias de seguridad y ZIP anteriores. No inventes licencias ni autorizaciones, no elimines archivos locales, no modifiques la base de datos y no crees otro repositorio. Indica qué imágenes se han incluido y cuáles siguen pendientes de autorización.
+
+### Revisión y decisión real
+
+- Se identificaron 16 retratos vinculados a los registros de personajes y `src/main/webapp/assets/images/portada/portada.jpg`. Las asociaciones y nombres originales constan en `src/main/webapp/assets/images/README.md`; no se renombraron los archivos.
+- Las imágenes fueron añadidas manualmente, pero no se aportó fuente, titular, licencia ni permiso explícito de redistribución, y no se encontró documentación verificable que los establezca. La inspección visual solo permite asociar los retratos con registros; no demuestra derechos de uso. Por ello, **no se consideró autorizada ninguna de las 17 imágenes y no se añadió ninguna a Git ni a la entrega ZIP**.
+- Se conservaron todos los JPG locales sin modificarlos ni eliminarlos. No se alteró la aplicación ni la base de datos; `src/main/webapp/assets/images/README.md` mantiene el inventario por registro y señala las 17 imágenes como pendientes de autorización.
+- La entrega se genera desde los archivos versionados y excluye `.env`, `.git`, `.idea`, `target`, respaldos, ZIP anteriores y los JPG sin autorización. Incluye los marcadores SVG y los demás archivos versionados necesarios para ejecutar con Docker Compose.
+
+### Verificación
+
+- Imágenes autorizadas e incluidas: **ninguna**. Pendientes: los 16 retratos —`Aizen.jpg`, `Byakuya Kuchiki.jpg`, `Chad Sado.jpg`, `Gin ichimaru.jpg`, `Ichigo Kurosaki.jpg`, `Ishida Uryuu.jpg`, `Kenpachi ZARAKI .jpg`, `matsumoto.jpg`, `Orihime Inoue.jpg`, `Renji Abarai .jpg`, `Rukia kuchiki.jpg`, `Shunsui Kyōraku.jpg`, `Tōshirō Hitsugaya.jpg`, `ukitake.jpg`, `Urahara.jpg` y `Yoruichi Shihouin.jpg`—, además de `portada.jpg`.
+- `BleachSoulSociety_ENTREGA.zip` se creó en el Escritorio a partir de los archivos versionados: contiene 64 entradas e incluye los 12 archivos esenciales comprobados. La inspección no encontró archivos excluidos ni imágenes JPG; los 16 retratos y la portada continúan intactos en sus carpetas locales. El ZIP anterior, `.env`, el respaldo y la base de datos no se añadieron ni modificaron.
+
