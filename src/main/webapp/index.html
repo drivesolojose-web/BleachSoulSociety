@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101113">
+    <meta name="description" content="Enciclopedia interactiva de Bleach: personajes, divisiones, zanpakutos y habilidades.">
+    <title>Bleach Soul Society — Archivo espiritual</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar" aria-label="Navegación principal">
+        <a class="brand" href="#inicio" data-view="inicio" aria-label="Bleach Soul Society, inicio">
+            <span class="brand-mark" aria-hidden="true">卍</span>
+            <span class="brand-copy"><strong>BLEACH</strong><small>SOUL SOCIETY ARCHIVE</small></span>
+        </a>
+        <p class="nav-caption">ARCHIVO</p>
+        <nav class="main-nav">
+            <button class="nav-link is-active" type="button" data-view="inicio"><span class="nav-icon" aria-hidden="true">◈</span>Inicio</button>
+            <button class="nav-link" type="button" data-view="personajes"><span class="nav-icon" aria-hidden="true">✦</span>Personajes</button>
+            <button class="nav-link" type="button" data-view="divisiones"><span class="nav-icon" aria-hidden="true">⌘</span>Divisiones del Gotei 13</button>
+            <button class="nav-link" type="button" data-view="zanpakutos"><span class="nav-icon" aria-hidden="true">〽</span>Zanpakutos</button>
+            <button class="nav-link" type="button" data-view="habilidades"><span class="nav-icon" aria-hidden="true">✧</span>Habilidades</button>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="api-indicator"><span class="status-dot" aria-hidden="true"></span><span id="api-status">Conectando con el archivo…</span></div>
+            <p>Un registro de las almas y sus historias.</p>
+        </div>
+    </aside>
+    <main class="main-area">
+        <header class="topbar">
+            <div class="breadcrumbs"><span>ARCHIVO ESPIRITUAL</span><span class="crumb-separator">/</span><strong id="page-title">Inicio</strong></div>
+            <a class="topbar-link" href="#personajes" data-view="personajes">Explorar archivo <span aria-hidden="true">↗</span></a>
+        </header>
+        <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+        <div id="app-content" class="page-content" aria-live="polite">
+            <div class="loading-panel"><span class="spinner" aria-hidden="true"></span><span>Cargando datos del archivo…</span></div>
+        </div>
+        <footer class="site-footer"><span>BLEACH SOUL SOCIETY</span><span>Un archivo construido con datos del proyecto</span></footer>
+    </main>
+</div>
+<dialog id="editor-dialog" class="modal" aria-labelledby="editor-title"><div id="editor-content"></div></dialog>
+<dialog id="detail-dialog" class="modal detail-modal" aria-labelledby="detail-title"><div id="detail-content"></div></dialog>
+</body>
+</html>
