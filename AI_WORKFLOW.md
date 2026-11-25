@@ -178,3 +178,11 @@ Junie ha realizado la programación y las pruebas automatizadas bajo mi supervis
 - Imágenes autorizadas e incluidas: **ninguna**. Pendientes: los 16 retratos —`Aizen.jpg`, `Byakuya Kuchiki.jpg`, `Chad Sado.jpg`, `Gin ichimaru.jpg`, `Ichigo Kurosaki.jpg`, `Ishida Uryuu.jpg`, `Kenpachi ZARAKI .jpg`, `matsumoto.jpg`, `Orihime Inoue.jpg`, `Renji Abarai .jpg`, `Rukia kuchiki.jpg`, `Shunsui Kyōraku.jpg`, `Tōshirō Hitsugaya.jpg`, `ukitake.jpg`, `Urahara.jpg` y `Yoruichi Shihouin.jpg`—, además de `portada.jpg`.
 - `BleachSoulSociety_ENTREGA.zip` se creó en el Escritorio a partir de los archivos versionados: contiene 64 entradas e incluye los 12 archivos esenciales comprobados. La inspección no encontró archivos excluidos ni imágenes JPG; los 16 retratos y la portada continúan intactos en sus carpetas locales. El ZIP anterior, `.env`, el respaldo y la base de datos no se añadieron ni modificaron.
 
+## Comprobación manual del CRUD de personajes por el alumno
+
+### Resultado comunicado
+
+- El alumno comprobó manualmente desde el navegador las operaciones de creación, consulta, modificación y eliminación de personajes, e informa que todas funcionaron correctamente.
+- Este resultado registra la comprobación realizada por el alumno; no se repitieron las operaciones durante esta actualización. No se modificaron el código de la aplicación ni la base de datos.
+- Esta actualización solo incorpora documentación. Las imágenes locales sin autorización verificable siguen excluidas del repositorio y del ZIP de entrega, al igual que `.env`, respaldos, `target` y archivos de IntelliJ.
+
