@@ -1,10 +1,12 @@
 # Registro de trabajo asistido por IA
 
-## Prompt de esta fase
+## Fase 1: API y base de datos
+
+### Prompt registrado
 
 > Actúa como desarrollador Full-Stack Java. Estoy realizando un proyecto académico de Acceso a Datos de 2º DAM llamado BleachSoulSociety, basado en el anime Bleach. Trabaja sobre el proyecto Maven existente y crea directamente todos los archivos necesarios, no te limites a explicar el código. Esta es la primera de tres fases. Configura Java 21, Maven, empaquetado WAR, Tomcat 10.1, Gson, JDBC, MySQL, HikariCP y JUnit 5. Implementa una arquitectura estrictamente desacoplada con paquetes model, dto, dao, service, controller, config y exception. Crea una base de datos MySQL normalizada con cinco tablas relacionadas: personajes, divisiones, zanpakutos, habilidades y personaje_habilidad, incluyendo relaciones 1:N y N:M, claves primarias, claves foráneas y restricciones de integridad referencial. Crea init.sql con DDL y DML e introduce datos coherentes del anime Bleach, incluyendo Ichigo, Rukia, Renji, Byakuya, Kenpachi, Toshiro, Aizen, Urahara, Yoruichi y otros personajes. Implementa CRUD completo para personajes, divisiones, zanpakutos y habilidades, incluyendo la asignación de habilidades a personajes. Implementa búsquedas y filtros. Utiliza PreparedStatement, HikariCP, try-with-resources, transacciones, DTOs y excepciones personalizadas. Separa estrictamente Controller, Service y DAO. Implementa una API mediante Servlets y JSON con validaciones de servidor y respuestas HTTP 200, 201, 400, 404 y 500. No escribas credenciales ni URLs de conexión directamente en Java; utiliza variables de entorno. Crea .env.example y .gitignore excluyendo .env, target y archivos innecesarios. Crea AI_WORKFLOW.md en español registrando este prompt y las decisiones arquitectónicas reales, dejando espacio para mis revisiones y correcciones manuales. Utiliza código sencillo, organizado y comentarios en español adecuados para un estudiante principiante de 2º DAM. Comprueba que el proyecto compila y corrige los errores encontrados. Registra los cambios en commits Git atómicos y descriptivos, sin publicar el repositorio. Trabaja únicamente dentro del proyecto actual. No instales programas del sistema. No inventes resultados de pruebas. Todavía no implementes la interfaz web, Docker Compose ni la batería completa de pruebas, porque serán las siguientes fases. Al terminar, indica los archivos creados, los endpoints disponibles, las comprobaciones realizadas y cualquier problema pendiente.
 
-## Decisiones arquitectónicas aplicadas
+### Decisiones arquitectónicas y cambios de la fase
 
 - Java 21 se configura con `maven.compiler.release`; Maven produce un WAR compatible con Servlet 6.0, destinado a Tomcat 10.1.
 - Los paquetes `model`, `dto`, `dao`, `service`, `controller`, `config` y `exception` separan entidades, entrada/salida JSON, persistencia, reglas de negocio, HTTP, composición de dependencias y errores.
@@ -37,4 +39,41 @@
 - El backend admite `nombre` y `divisionId` para la lista de personajes; el filtro por raza se aplica en el cliente a los registros recibidos. Los filtros restantes usan los campos que proporciona cada API.
 - La ficha de personaje obtiene zanpakutos y habilidades de sus endpoints reales y permite asignar/retirar habilidades. Las acciones CRUD muestran estados de carga, errores o confirmaciones según corresponde.
 - No se encontraron imágenes locales autorizadas. Se añadieron marcadores originales y la guía `assets/images/personajes/README.md` para retratos WebP autorizados por ID.
-- La validación en navegador, Tomcat y MySQL queda pendiente: Java y Maven no están disponibles en el entorno reportado, y no se ejecutó una suite ni se inició la aplicación.
+- Al cerrar esta fase no se pudo validar la interfaz en navegador, Tomcat o MySQL porque Java y Maven no estaban disponibles. La fase 3 incorpora la validación del WAR, la API y MySQL mediante Docker; no había una herramienta de navegador disponible para inspección visual.
+
+## Fase 3: Docker, integración y cierre
+
+### Prompt registrado
+
+> Continúa trabajando sobre el proyecto BleachSoulSociety existente, conservando el backend, la base de datos y la interfaz web creados en las dos fases anteriores. Esta es la tercera y última fase del proyecto académico de Acceso a Datos de 2º DAM. Crea un Dockerfile multi-stage que utilice Maven y Java 21 para compilar el archivo WAR y Tomcat 10.1 para desplegarlo. Crea docker-compose.yml con tres servicios independientes llamados app, db y phpmyadmin, utilizando MySQL, una red interna, un volumen persistente nombrado, healthcheck de MySQL y depends_on con condition service_healthy. Monta el script init.sql existente en /docker-entrypoint-initdb.d/ para inicializar automáticamente las cinco tablas y sus datos. Configura correctamente las variables de entorno mediante .env y .env.example, sin credenciales ni URLs escritas directamente en Java y sin incluir .env en Git. Utiliza el puerto 8080 para la aplicación y 8081 para phpMyAdmin, salvo que exista algún conflicto. Resuelve la compilación pendiente utilizando Docker con Java y Maven dentro del contenedor si Docker está disponible, o el Maven Wrapper y el JDK existente si procede. No instales programas del sistema sin autorización. Completa las pruebas unitarias y de integración con JUnit 5 y Mockito cuando sea necesario, cubriendo las operaciones CRUD de los DAO, la lógica de los servicios, las validaciones, las claves duplicadas, los registros inexistentes y los casos límite. Utiliza una base de datos aislada para las pruebas y no elimines los datos de la aplicación. Revisa todo el código Java, SQL, HTML, CSS y JavaScript, corrige errores de compilación, conexiones, rutas, validaciones y posibles incompatibilidades entre frontend y backend. Si Docker está disponible, ejecuta docker compose up --build -d, comprueba el estado de los contenedores, verifica los endpoints reales, las operaciones CRUD y la persistencia de datos después de detener y volver a iniciar los contenedores sin eliminar los volúmenes. Comprueba la interfaz en el navegador si tienes herramientas disponibles para ello. Completa README.md en español incluyendo descripción del proyecto, tecnologías utilizadas, diagrama entidad-relación, diagrama de arquitectura de contenedores, estructura de carpetas, configuración de variables de entorno, credenciales de prueba, puertos, instrucciones de instalación y despliegue, ejecución de pruebas y manual de uso. Actualiza AI_WORKFLOW.md registrando los tres prompts, las decisiones arquitectónicas, los errores encontrados, las correcciones reales, las comprobaciones realizadas y dejando espacio para que el alumno documente sus revisiones y correcciones manuales. Revisa que .gitignore excluya .env, target y archivos innecesarios. Comprueba el cumplimiento de todos los requisitos y realiza commits Git atómicos y descriptivos sin publicar el repositorio. No inventes resultados ni afirmes haber ejecutado pruebas que no hayas podido ejecutar. Mantén el código sencillo, organizado y comentado en español, adecuado para un estudiante principiante de 2º DAM. Trabaja únicamente dentro de la carpeta actual. Al finalizar, presenta un informe completo de las comprobaciones realizadas, los resultados de las pruebas, los errores corregidos, los requisitos cumplidos, las instrucciones exactas para abrir la aplicación y cualquier tarea pendiente que deba realizar manualmente antes de entregar el repositorio Git y el archivo ZIP.
+
+### Decisiones arquitectónicas y cambios reales
+
+- `Dockerfile` usa Maven 3.9.9 con JDK 21 para `clean verify` en la etapa de compilación y copia el WAR a Tomcat 10.1. El WAR incluye MySQL Connector/J en `WEB-INF/lib`.
+- Compose define `app`, `db` (MySQL 8.0) y `phpmyadmin` (5.2.3). `db` solo se conecta a `bleach-internal`, una red bridge interna; `app` y `phpmyadmin` usan esa red y `bleach-ingress` para publicar 8080 y 8081 en el host. La base tiene volumen nombrado y healthcheck; `app` y phpMyAdmin esperan `service_healthy`.
+- El entrypoint de MySQL crea `DB_NAME` y ejecuta `init.sql` dentro de esa base. Se quitaron `CREATE DATABASE` y `USE` fijos del SQL para que el nombre configurado se respete.
+- `.env.example` contiene credenciales locales de desarrollo; `.env` está excluido por `.gitignore` y `.dockerignore`. Compose inyecta la URL con host `db`; Java solo lee las variables de entorno.
+- Mockito cubre lógica y validaciones de servicios. H2 en modo MySQL crea una base en memoria distinta por prueba para verificar los cinco DAO sin usar ni borrar la base de la aplicación.
+- README documenta tecnologías, diagramas ER y de contenedores, capas, variables, credenciales locales, puertos, instrucciones, ejecución de pruebas y uso de la web.
+
+### Errores encontrados y correcciones
+
+- Tomcat no reconoció automáticamente MySQL Connector/J desde el classloader del WAR: se indicó `com.mysql.cj.jdbc.Driver` explícitamente a Hikari en `DatabaseConfig`.
+- La red exclusivamente interna impedía publicar puertos hacia Windows en Docker Desktop: se mantuvo la red interna para el tráfico privado de base de datos y se añadió una red de entrada para los puertos de aplicación y phpMyAdmin.
+- El script inicial seleccionaba una base fija: ahora el contenedor lo ejecuta sobre `MYSQL_DATABASE`.
+- El cliente PowerShell usado para la prueba HTTP necesitó enviar el JSON como bytes UTF-8; no era un defecto del servidor ni requirió cambiar la API.
+
+### Comprobaciones realizadas
+
+- `docker compose up --build -d` terminó correctamente; MySQL quedó saludable y los tres servicios iniciados.
+- `mvn clean verify` dentro de la imagen de compilación: 15 pruebas, 0 fallos, 0 errores y 0 omitidas.
+- La base MySQL inicializó las cinco tablas y mostró 16 personajes y 13 divisiones; la API informó además 12 zanpakutos y 12 habilidades.
+- Web y phpMyAdmin respondieron HTTP 200. La API real completó crear, consultar, actualizar y eliminar para los cuatro recursos y asignar/retirar habilidades con los estados esperados.
+- La revisión sintáctica previa de `app.js` con `node --check` había terminado correctamente; navegador visual no disponible en las herramientas de esta sesión.
+- `docker compose stop` seguido de `docker compose start` mantuvo los contenedores y el volumen `bleachsoulsociety_mysql_data`; un GET posterior devolvió el marcador temporal con ID 16 y contenido exacto. Se eliminó después solo tras volver a verificar nombre y descripción; no se usó `down -v` ni se borró el volumen.
+
+### Revisiones y correcciones manuales del alumno
+
+- Observaciones y cambios manuales: _Escribe aquí tus revisiones, correcciones y decisiones._
+- Fecha de revisión: ____________________
+- Archivos revisados: ____________________
