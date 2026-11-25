@@ -26,3 +26,15 @@ Todas las rutas usan el prefijo `/api` y reciben/devuelven JSON. Las respuestas 
 Las creaciones responden `201`; consultas, actualizaciones, eliminaciones y asignaciones responden `200`. Las validaciones devuelven `400`, los recursos inexistentes `404` y los errores internos `500`.
 
 Los cuerpos de escritura usan las propiedades de los DTO correspondientes: personaje (`nombre`, `apellido`, `especie`, `rango`, `divisionId`), división (`nombre`, `descripcion`), zanpakuto (`personajeId`, `nombre`, `shikai`, `bankai`) y habilidad (`nombre`, `descripcion`, `tipo`).
+
+## Interfaz web
+
+La segunda fase añade una interfaz en `src/main/webapp`, servida por Tomcat en la raíz del contexto (`/BleachSoulSociety/` con el nombre WAR configurado). La página de inicio muestra cifras consultadas desde la API y el menú permite abrir las secciones de personajes, divisiones, zanpakutos y habilidades.
+
+- Personajes: búsqueda por nombre, filtros por raza y división, fichas de detalle, CRUD y asignación o retirada de habilidades.
+- Divisiones, zanpakutos y habilidades: búsqueda/filtros disponibles, fichas de detalle y CRUD. Las relaciones de portador y división se eligen con registros obtenidos de la API.
+- Los formularios envían JSON a las rutas documentadas arriba; los errores del servidor aparecen en pantalla y los borrados requieren confirmación.
+- Los filtros se aplican sobre datos reales recuperados del backend. La API solo admite filtros de personaje por `nombre` y `divisionId`; el filtro de raza se realiza en el navegador.
+- Los archivos están separados en `index.html`, `assets/css/styles.css` y `assets/js/app.js`. No hay retratos con licencia incorporados; se utilizan marcadores propios y la carpeta `assets/images/personajes` documenta cómo añadir imágenes WebP autorizadas con nombre basado en el ID.
+
+La web necesita que Tomcat y la API puedan acceder a MySQL con las variables de entorno indicadas en la sección de preparación. La batería completa de pruebas y Docker Compose quedan pendientes para la tercera fase.
